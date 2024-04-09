@@ -1,1 +1,12 @@
 @import './styles/colors.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, html body {
+    height: 100%;
+    background: $bg-darker;
+}

@@ -13,6 +13,10 @@ import { GptService } from './services/gpt.service';
   styles: [`
 
     @import '../styles/colors.scss';
+    .container {
+      height: 100%;
+      background: $bg-dark;
+    }
 
   `]
 })

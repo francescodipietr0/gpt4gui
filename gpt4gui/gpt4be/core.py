@@ -1,18 +1,45 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os, requests
 
 app = Flask(__name__)
 CORS(app)
 
+# api esposta al fe
 @app.route('/api/test', methods=['GET'])
-def test_request():
-    prompt = request.args.get('prompt')
-    result = 'success! il prompt era: ' + prompt
+def get_prompt_from_fe():
 
-    # chiamata a gpt 4 dando come parametro il promp ricevuto
-    # ritornare la risposta dell'api invocata
-    
-    return jsonify(result)
+    prompt = request.args.get('prompt')
+
+    # chiamata a gpt 4 dando come parametro il prompt ricevuto
+    response = get_openai_response(prompt)
+
+    # ritorno la risposta dell'api invocata
+    return jsonify(response)
+
+# chiamata ad api di openai
+def get_openai_response(prompt):
+
+    api_key = os.getenv("openai_key")
+    if(api_key):
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {api_key}'
+        }
+        data = {
+            'model': 'gpt-4-0125-preview',
+            'messages': [
+                {'role': 'system', 'content': 'rispondi in italiano'},
+                {'role': 'user', 'content': prompt}
+            ]
+        }
+        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+        response_json = response.json()
+        print(response_json)
+        # inserire un controllo che: se esiste la chiave choices lascio invariato, altrimenti vedo se esiste la chiave error e restituisco l'errore
+        return response_json['choices'][0]['message']['content']
+
+    return "variabile d'ambiente non trovata"
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

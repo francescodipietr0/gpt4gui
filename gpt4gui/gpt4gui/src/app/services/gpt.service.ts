@@ -11,8 +11,8 @@ export class GptService {
   invokeGpt(prompt: string) {
     let url = "http://localhost:8080/api/test?prompt=" + prompt;
     this.http.get(url)
-      .subscribe(x => {
-        console.log(x);
+      .subscribe(response => {
+        console.log(response);
       })
   }
   

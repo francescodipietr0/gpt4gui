@@ -1,0 +1,18 @@
+# Node artifacts
+/node_modules
+
+# Compiled JavaScript
+/dist
+/tmp
+
+# Log files
+/logs
+
+# IDE specific files
+/.idea
+/.vscode
+
+# User-specific files
+/.npmrc
+/.yarnrc
+/yarn-error.log

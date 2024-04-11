@@ -1,19 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GptService {
 
+  private responseSubject = new BehaviorSubject<string>("");
+  public response$ = this.responseSubject.asObservable();
+
   constructor(private http: HttpClient) { }
 
-  invokeGpt(prompt: string) {
+  invokeGpt(prompt: string): void {
     let url = "http://localhost:8080/api/test?prompt=" + prompt;
     this.http.get(url)
-      .subscribe(response => {
-        console.log(response);
-      })
+      .subscribe(response => this.responseSubject.next(JSON.stringify(response)));
   }
+
+  /** TODO:
+    Il codice sembra abbastanza pulito e funzionale. Tuttavia, ci sono alcune cose che potrebbero essere migliorate o considerate:
+
+    Gestione degli errori: Attualmente non stai gestendo gli errori nella tua chiamata HTTP. È una buona pratica gestire gli errori e notificarli al codice chiamante, ad esempio emettendo un errore sul tuo BehaviorSubject o gestendo l'errore nel chiamante della funzione invokeGpt().
+
+    Trasformazione della risposta: Attualmente stai trasformando la risposta in una stringa utilizzando JSON.stringify(). Questo può essere appropriato a seconda delle esigenze dell'applicazione, ma potresti voler considerare di mantenere la risposta come oggetto JSON nel caso in cui il chiamante desideri elaborare ulteriormente i dati.
+
+    Gestione delle sottoscrizioni: Assicurati di gestire correttamente le sottoscrizioni per evitare memory leaks. Ad esempio, potresti voler disporre della sottoscrizione al BehaviorSubject quando il servizio viene distrutto.
+
+    Sicurezza: Assicurati che il tuo servizio di backend sia configurato in modo sicuro, soprattutto quando si gestiscono dati sensibili o si effettuano chiamate HTTP da un'applicazione client. Assicurati di adottare buone pratiche di sicurezza per proteggere la tua applicazione.
+
+    Documentazione: Assicurati di documentare adeguatamente il tuo codice, soprattutto se è destinato ad essere utilizzato da altri sviluppatori. Questo include documentare le funzioni pubbliche, le dipendenze esterne e le eventuali limitazioni o considerazioni di utilizzo.
+
+    In generale, il tuo codice sembra essere un buon punto di partenza, ma assicurati di considerare anche questi aspetti per garantire che il tuo servizio sia robusto, sicuro e facilmente utilizzabile.
+   */
   
 }

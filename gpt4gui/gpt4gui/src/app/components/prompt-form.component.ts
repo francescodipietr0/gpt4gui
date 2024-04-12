@@ -7,7 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   template: `
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="d-flex flex-row ">
       <div class="d-flex align-items-center input-box" [class.focused]="isInputFocused">
-        <input type="text" formControlName="inputPrompt" (focus)="isInputFocused = true" (blur)="isInputFocused = false">
+        <!-- <input type="text" formControlName="inputPrompt" (focus)="isInputFocused = true" (blur)="isInputFocused = false"> -->
+        
+        <textarea cols="30" rows="2" 
+          formControlName="inputPrompt" 
+          (focus)="isInputFocused = true" 
+          (blur)="isInputFocused = false">
+        </textarea>
         <button type="submit">
           <div class="d-flex justify-content-center align-items-center">
             <img src="assets/icons/submit.png" alt="submit prompt">
@@ -24,9 +30,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       width: 80%;
     }
 
-    input {
+    textarea {
       border: none;
       outline: none;
+      scrollbar-width: none;
+      resize: none;
       flex-grow: 1;
       
       padding: 8px 6px;
@@ -34,9 +42,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       color: #fff;
 
       font-size: 14px;
+      height: auto;
     }
 
-    input:focus-visible {
+    textarea:focus-visible {
       outline: none; 
     }
 

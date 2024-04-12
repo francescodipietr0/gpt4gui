@@ -32,11 +32,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       padding: 8px 6px;
       background: $bg-dark;
       color: #fff;
+
+      font-size: 14px;
     }
 
     input:focus-visible {
-      outline: none;
-      
+      outline: none; 
     }
 
     button {

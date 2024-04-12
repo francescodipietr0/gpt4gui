@@ -6,11 +6,61 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'gpt-prompt-form',
   template: `
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="d-flex flex-row ">
-      <input type="text" formControlName="inputPrompt">
-      <button type="submit">Send</button>
+      <div class="d-flex align-items-center input-box" [class.focused]="isInputFocused">
+        <input type="text" formControlName="inputPrompt" (focus)="isInputFocused = true" (blur)="isInputFocused = false">
+        <button type="submit">
+          <div class="d-flex justify-content-center align-items-center">
+            <img src="assets/icons/submit.png" alt="submit prompt">
+          </div>
+        </button>
+      </div>
     </form>
   `,
   styles: [`
+
+    @import '../../styles/colors.scss';
+
+    :host {
+      width: 80%;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      flex-grow: 1;
+      
+      padding: 8px 6px;
+      background: $bg-dark;
+      color: #fff;
+    }
+
+    input:focus-visible {
+      outline: none;
+      
+    }
+
+    button {
+      border: 0;
+      background: none;
+    }
+
+    .input-box {
+      width: 100%;
+      border: 1px solid #323232;
+      border-radius: 8px;
+      padding: 0 4px;
+    }
+
+    .focused {
+      border: 1px solid #525252;
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+
 
   `]
 })
@@ -18,6 +68,7 @@ export class PromptFormComponent {
 
   form: FormGroup;
   response = "";
+  isInputFocused = false;
 
 
   constructor(
@@ -31,11 +82,12 @@ export class PromptFormComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      const formControl = this.form.get('inputPrompt');
+      let formControl = this.form.get('inputPrompt');
 
       if(formControl) {
         const inputPrompt = formControl.value;
         this.gptService.invokeGpt(inputPrompt);
+        formControl.setValue("");
       }
     }
   }

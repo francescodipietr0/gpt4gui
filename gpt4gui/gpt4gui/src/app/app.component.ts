@@ -6,16 +6,14 @@ import { GptService } from './services/gpt.service';
   template: `
     <div class="container-fluid">
       <div class="row full-height">
-        <div class="col col-2">
+        <div class="col col-3">
 
         </div>
-        <div class="col col-8 d-flex flex-column justify-content-between pt-4 pb-3">
+        <div class="col col-9 d-flex flex-column justify-content-between align-items-center pt-4 pb-3">
           <gpt-response-box></gpt-response-box>
           <gpt-prompt-form></gpt-prompt-form>
         </div>
-        <div class="col col-2">
 
-        </div>
       </div>
     </div>
   `,

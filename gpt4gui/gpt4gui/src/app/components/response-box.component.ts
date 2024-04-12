@@ -11,9 +11,8 @@ import { GptService } from '../services/gpt.service';
   styles: [`
 
     :host {
-      width: 100%;
+      width: 75%;
       height: 90%;
-      border: 1px solid white;
     }
 
     div {

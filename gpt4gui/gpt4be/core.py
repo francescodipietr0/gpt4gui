@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_compress import Compress
 import os, requests
 
 app = Flask(__name__)
 CORS(app)
+Compress(app)
 
 # api esposta al fe
 @app.route('/api/test', methods=['GET'])
@@ -29,13 +31,13 @@ def get_openai_response(prompt):
         data = {
             'model': 'gpt-4-0125-preview',
             'messages': [
-                {'role': 'system', 'content': 'rispondi in italiano'},
+                {'role': 'system', 'content': 'comportati come un chatbot pronto ad aiutare ed esaudire al meglio le richieste che ti vengono fatte; rispondi in italiano'},
                 {'role': 'user', 'content': prompt}
             ]
         }
         response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
         response_json = response.json()
-        print(response_json)
+
         # inserire un controllo che: se esiste la chiave choices lascio invariato, altrimenti vedo se esiste la chiave error e restituisco l'errore
         return response_json['choices'][0]['message']['content']
 

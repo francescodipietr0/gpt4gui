@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GptService } from '../services/gpt.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { GptResponseGetDTO } from '../dtos/dtos';
 
 @Component({
   selector: 'gpt-message-container',
   template: `
-    <div class="d-flex" [ngClass]="{'justify-content-center': !(response$ | async), 'align-items-center': !(response$ | async)}">
+    <div class="d-flex" [ngClass]="{'justify-content-center': !messageList.length, 'align-items-center': !messageList.length}">
 
-      <ng-container *ngIf="(response$ | async) as response; else welcome">
-        <!-- <gpt-message-card-list ></gpt-message-card-list> -->
-        {{ response.choices.message.content }}
+      <ng-container *ngIf="messageList.length; else welcome">
+        <gpt-message-card-list
+          [messageList]="messageList"
+        ></gpt-message-card-list>
       </ng-container>
 
       <!-- welcome -->
@@ -47,13 +48,23 @@ import { GptResponseGetDTO } from '../dtos/dtos';
 
   `]
 })
-export class MessageContainerComponent implements OnInit {
+export class MessageContainerComponent implements OnInit, OnDestroy {
 
-  response$: Observable<GptResponseGetDTO> = this.gptService.response$;
+  response$: Observable<GptResponseGetDTO> = this.gptService.message$;
+  private subscription: Subscription = new Subscription();
+
+  messageList: GptResponseGetDTO[] = [];
+
 
   constructor(private gptService: GptService) { }
-
+  
   ngOnInit(): void {
+    this.subscription = this.response$
+      .subscribe(response => response && this.messageList.push(response));
+  }
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

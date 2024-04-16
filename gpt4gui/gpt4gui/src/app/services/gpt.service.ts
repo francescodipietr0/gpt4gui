@@ -8,8 +8,8 @@ import { GptResponseGetDTO } from '../dtos/dtos';
 })
 export class GptService {
 
-  private responseSubject = new BehaviorSubject<any>(null);
-  public response$ = this.responseSubject.asObservable();
+  private messageSubject = new BehaviorSubject<any>(null);
+  public message$ = this.messageSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,12 @@ export class GptService {
       .pipe(
         map(response => this.mapToGptResponseDTO(response))
       )
-      .subscribe(response => this.responseSubject.next(response));
+      .subscribe(response => {
+        // TODO: capire perchè scoppia
+        // console.log(prompt);
+        // this.messageSubject.next(prompt);
+        this.messageSubject.next(response);
+      });
   }
 
   mapToGptResponseDTO(data: any){

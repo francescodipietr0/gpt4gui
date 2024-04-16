@@ -1,7 +1,7 @@
-export interface GetResponseDTO {
+export interface GptResponseGetDTO {
     id: string,
     created: number,
-    choices: ChoiceDTO[],
+    choices: ChoiceDTO,
     usage: {
         prompt_tokens: number,
         completion_tokens: number,
@@ -11,8 +11,8 @@ export interface GetResponseDTO {
 
 export interface ChoiceDTO {
     message: {
-        role: string;
-        content: string;
+        role: string,
+        content: string,
     },
     logprobs: any // TODO: immagino sia una stringa che contenga i log di errore, lo capiremo
 }

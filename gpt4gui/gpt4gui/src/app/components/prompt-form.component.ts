@@ -96,7 +96,7 @@ export class PromptFormComponent {
 
       if(formControl) {
         const inputPrompt = formControl.value;
-        this.gptService.invokeGpt(inputPrompt);
+        this.gptService.getGptResponse(inputPrompt);
         formControl.setValue("");
       }
     }

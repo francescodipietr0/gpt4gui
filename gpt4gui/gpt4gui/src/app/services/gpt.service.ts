@@ -1,21 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { GptResponseGetDTO } from '../dtos/dtos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GptService {
 
-  private responseSubject = new BehaviorSubject<string>("");
+  private responseSubject = new BehaviorSubject<any>(null);
   public response$ = this.responseSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  invokeGpt(prompt: string): void {
+  getGptResponse(prompt: string): void {
     let url = "http://localhost:8080/api/test?prompt=" + prompt;
     this.http.get(url)
+      .pipe(
+        map(response => this.mapToGptResponseDTO(response))
+      )
       .subscribe(response => this.responseSubject.next(JSON.stringify(response)));
+  }
+
+  mapToGptResponseDTO(data: any){
+    return {
+      id: data.id,
+      created: data.created,
+      // al momemento non vi è la gestione delle scelte;
+      // è stato creato un ChoiceDTO in modo che, in eventuali sviluppi futuri, sarà più facile poter gestire un array di choices
+      choices: {
+        message: {
+          role: data.choices[0].message.role,
+          content: data.choices[0].message.content,
+        },
+        logprobs: data.choices[0].logprobs,
+      },
+      usage: {
+          prompt_tokens: data.usage.prompt_tokens,
+          completion_tokens: data.usage.completion_tokens,
+          total_tokens: data.usage.total_tokens
+      }
+    }
   }
 
   /** TODO:

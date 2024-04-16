@@ -39,7 +39,8 @@ def get_openai_response(prompt):
         response_json = response.json()
 
         # inserire un controllo che: se esiste la chiave choices lascio invariato, altrimenti vedo se esiste la chiave error e restituisco l'errore
-        return response_json['choices'][0]['message']['content']
+        # return response_json['choices'][0]['message']['content']
+        return response_json
 
     return "variabile d'ambiente non trovata"
 

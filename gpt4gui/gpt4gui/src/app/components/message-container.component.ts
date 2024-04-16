@@ -4,21 +4,22 @@ import { Observable } from 'rxjs';
 import { GptResponseGetDTO } from '../dtos/dtos';
 
 @Component({
-  selector: 'gpt-response-box',
+  selector: 'gpt-message-container',
   template: `
     <div class="d-flex" [ngClass]="{'justify-content-center': !(response$ | async), 'align-items-center': !(response$ | async)}">
-      
-    <ng-container *ngIf="(response$ | async) as response">
-      {{ response.choices.message.content }}
-    </ng-container>
+
+      <ng-container *ngIf="(response$ | async) as response; else welcome">
+        <!-- <gpt-message-card-list ></gpt-message-card-list> -->
+        {{ response.choices.message.content }}
+      </ng-container>
 
       <!-- welcome -->
-      <ng-container *ngIf="!(response$ | async)">
+      <ng-template #welcome>
         <div class="d-flex flex-column justify-content-center align-items-center">
           <img src="assets/icons/logo.png" alt="logo">
           <p>Ciao, come posso aiutarti?</p>
         </div>
-      </ng-container>
+      </ng-template>
 
     </div>
   `,
@@ -46,7 +47,7 @@ import { GptResponseGetDTO } from '../dtos/dtos';
 
   `]
 })
-export class ResponseBoxComponent implements OnInit {
+export class MessageContainerComponent implements OnInit {
 
   response$: Observable<GptResponseGetDTO> = this.gptService.response$;
 

@@ -10,7 +10,7 @@ import { GptService } from './services/gpt.service';
 
         </div>
         <div class="col col-9 d-flex flex-column justify-content-between align-items-center pt-4 pb-3">
-          <gpt-response-box></gpt-response-box>
+          <gpt-message-container></gpt-message-container>
           <gpt-prompt-form></gpt-prompt-form>
         </div>
 

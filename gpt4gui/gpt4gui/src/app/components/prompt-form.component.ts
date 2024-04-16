@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { GptService } from '../services/gpt.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'gpt-prompt-form',
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="d-flex flex-row ">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit($event)" class="d-flex flex-row ">
       <div class="d-flex align-items-center input-box" [class.focused]="isInputFocused">
         <!-- <input type="text" formControlName="inputPrompt" (focus)="isInputFocused = true" (blur)="isInputFocused = false"> -->
         
@@ -84,18 +85,22 @@ export class PromptFormComponent {
   constructor(
     private gptService: GptService,
     private formBuilder: FormBuilder,
+    private sharedService: SharedService
   ) {
     this.form = this.formBuilder.group({
-      inputPrompt: ['', Validators.required]
+      inputPrompt: ['', [Validators.required, this.sharedService.noWhiteSpaceValidator]]
     });
   }
 
-  onSubmit() {
+  onSubmit(event?: Event) {
+    if(event)
+      event.preventDefault();
+
     if (this.form.valid) {
       let formControl = this.form.get('inputPrompt');
 
       if(formControl) {
-        const inputPrompt = formControl.value;
+        const inputPrompt = formControl.value.trim();
         this.gptService.getGptResponse(inputPrompt);
         formControl.setValue("");
       }

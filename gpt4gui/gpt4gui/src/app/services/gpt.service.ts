@@ -19,7 +19,7 @@ export class GptService {
       .pipe(
         map(response => this.mapToGptResponseDTO(response))
       )
-      .subscribe(response => this.responseSubject.next(JSON.stringify(response)));
+      .subscribe(response => this.responseSubject.next(response));
   }
 
   mapToGptResponseDTO(data: any){

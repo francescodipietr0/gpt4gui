@@ -13,7 +13,6 @@ import { GptService } from './services/gpt.service';
           <gpt-message-container></gpt-message-container>
           <gpt-prompt-form></gpt-prompt-form>
         </div>
-
       </div>
     </div>
   `,

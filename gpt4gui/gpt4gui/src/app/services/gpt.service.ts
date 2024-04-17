@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { GptResponseGetDTO } from '../dtos/dtos';
+import { Message } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GptService {
 
-  private messageSubject = new BehaviorSubject<any>(null);
-  public message$ = this.messageSubject.asObservable();
+  private messageSubject = new BehaviorSubject<Message | undefined>(undefined);
+  public message$: Observable<Message | undefined> = this.messageSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -20,10 +21,7 @@ export class GptService {
         map(response => this.mapToGptResponseDTO(response))
       )
       .subscribe(response => {
-        // TODO: capire perchè scoppia
-        // console.log(prompt);
-        // this.messageSubject.next(prompt);
-        this.messageSubject.next(response);
+        this.messageSubject.next({question: prompt, answer: response});
       });
   }
 

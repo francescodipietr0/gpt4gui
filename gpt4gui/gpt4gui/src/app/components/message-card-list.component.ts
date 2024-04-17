@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GptResponseGetDTO } from '../dtos/dtos';
+import { Message } from '../types/types';
 
 @Component({
   selector: 'gpt-message-card-list',
   template: `
     <div *ngFor="let message of messageList">
-      {{ message.choices.message.content }}
+      <div>{{ message.question }}</div>
+      <div>{{ message.answer.choices.message.content }}</div>
     </div>
   `,
   styles: [
@@ -13,7 +15,7 @@ import { GptResponseGetDTO } from '../dtos/dtos';
 })
 export class MessageCardListComponent implements OnInit {
 
-  @Input() messageList: GptResponseGetDTO[] = [];
+  @Input() messageList: Message[] = [];
 
   constructor() { }
 

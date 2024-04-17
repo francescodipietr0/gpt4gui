@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GptService } from '../services/gpt.service';
 import { Observable, Subscription } from 'rxjs';
 import { GptResponseGetDTO } from '../dtos/dtos';
+import { Message } from '../types/types';
 
 @Component({
   selector: 'gpt-message-container',
@@ -50,16 +51,16 @@ import { GptResponseGetDTO } from '../dtos/dtos';
 })
 export class MessageContainerComponent implements OnInit, OnDestroy {
 
-  response$: Observable<GptResponseGetDTO> = this.gptService.message$;
+  message$: Observable<Message | undefined> = this.gptService.message$;
   private subscription: Subscription = new Subscription();
 
-  messageList: GptResponseGetDTO[] = [];
+  messageList: Message[] = [];
 
 
   constructor(private gptService: GptService) { }
   
   ngOnInit(): void {
-    this.subscription = this.response$
+    this.subscription = this.message$
       .subscribe(response => response && this.messageList.push(response));
   }
   

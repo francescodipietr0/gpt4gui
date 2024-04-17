@@ -13,7 +13,7 @@ import { Role } from '../types/types';
       </div>
       <div class="d-flex flex-column">
         <div>
-          {{ role }}
+          {{ getRoleLabel() }}
         </div>
         <div>
           {{ text }}
@@ -25,7 +25,8 @@ import { Role } from '../types/types';
 
     .message-card {
       gap: 20px;
-      margin: 14px 0;
+      // margin: 14px 0;
+      margin: 18px 0;
     }
 
     img {
@@ -33,9 +34,9 @@ import { Role } from '../types/types';
       height: 24px;
     }
 
-    .answer {
-      margin-bottom: 40px;
-    }
+    // .answer {
+    //   margin-bottom: 40px;
+    // }
 
   `]
 })
@@ -47,6 +48,20 @@ export class MessageCardItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getRoleLabel(): string {
+    switch(this.role){
+      case "system": 
+      case "assistant":
+        return "ChatDPT";
+
+      case "user":
+        return "Tu";
+
+      default:
+        return "Error";
+    }
   }
 
 }

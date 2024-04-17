@@ -30,6 +30,9 @@ import { Message } from '../types/types';
     :host {
       width: 75%;
       height: 90%;
+      overflow: scroll;
+      scrollbar-width: none;
+      margin-bottom: 20px;
     }
 
     div {

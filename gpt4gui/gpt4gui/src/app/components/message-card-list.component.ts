@@ -1,13 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GptResponseGetDTO } from '../dtos/dtos';
 import { Message } from '../types/types';
 
 @Component({
   selector: 'gpt-message-card-list',
   template: `
     <div *ngFor="let message of messageList">
-      <div>{{ message.question }}</div>
-      <div>{{ message.answer.choices.message.content }}</div>
+      <gpt-message-card-item 
+        [role]="'user'"
+        [text]="message.question"
+      >
+      </gpt-message-card-item>
+      <gpt-message-card-item 
+        [role]="message.answer.choices.message.role"
+        [text]="message.answer.choices.message.content"
+      >
+      </gpt-message-card-item>
     </div>
   `,
   styles: [

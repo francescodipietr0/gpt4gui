@@ -1,3 +1,5 @@
+import { Role } from "../types/types"
+
 export interface GptResponseGetDTO {
     id: string,
     created: number,
@@ -11,7 +13,7 @@ export interface GptResponseGetDTO {
 
 export interface ChoiceDTO {
     message: {
-        role: string,
+        role: Role,
         content: string,
     },
     logprobs: any // TODO: immagino sia una stringa che contenga i log di errore, lo capiremo

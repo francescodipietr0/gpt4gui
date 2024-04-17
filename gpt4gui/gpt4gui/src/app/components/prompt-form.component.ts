@@ -15,7 +15,7 @@ import { SharedService } from '../services/shared.service';
           (focus)="isInputFocused = true" 
           (blur)="isInputFocused = false">
         </textarea>
-        <button type="submit">
+        <button type="submit" [disabled]="!this.form.valid" [class.disabled]="!this.form.valid">
           <div class="d-flex justify-content-center align-items-center">
             <img src="assets/icons/submit.png" alt="submit prompt">
           </div>
@@ -71,6 +71,9 @@ import { SharedService } from '../services/shared.service';
       height: 24px;
     }
 
+    .disabled {
+      opacity: 0.5;
+    }
 
 
   `]

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Role } from '../types/types';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'gpt-message-card-item',

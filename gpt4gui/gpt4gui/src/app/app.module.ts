@@ -9,6 +9,7 @@ import { PromptFormComponent } from './components/prompt-form.component';
 import { MessageContainerComponent } from './components/message-container.component';
 import { MessageCardItemComponent } from './components/message-card-item.component';
 import { MessageCardListComponent } from './components/message-card-list.component';
+import { CapitalizePipe } from './custom_pipes/capitalize.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MessageCardListComponent } from './components/message-card-list.compone
     PromptFormComponent,
     MessageContainerComponent,
     MessageCardItemComponent,
-    MessageCardListComponent
+    MessageCardListComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,

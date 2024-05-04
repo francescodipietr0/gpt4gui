@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, Response, request, jsonify, stream_with_context
 from flask_cors import CORS
 from flask_compress import Compress
 import os, requests, json
@@ -28,11 +28,16 @@ def get_prompt_from_fe():
         
     history.append({'role': 'user', 'content': prompt})
 
-    # chiamata a gpt 4 dando come parametro il prompt ricevuto e la history
-    response = get_openai_response(prompt, history)
+    # # chiamata a gpt 4 dando come parametro il prompt ricevuto e la history
+    # response = get_openai_response(prompt, history)
 
-    # ritorno la risposta dell'api invocata
-    return jsonify(response)
+    # # ritorno la risposta dell'api invocata
+    # return jsonify(response)
+
+    return Response(
+        stream_with_context(get_openai_response(prompt, history)),
+        content_type='application/json'
+    )
 
 
 # chiamata ad api di openai
@@ -46,12 +51,17 @@ def get_openai_response(prompt, history):
         }
         data = {
             'model': 'gpt-4-0125-preview',
-            'messages': history
+            'messages': history,
+            'stream':True
         }
-        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
-        response_json = response.json()
+        # response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+        # response_json = response.json()
 
-        return response_json
+        # return response_json
+        with requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data, stream=True) as r:
+            for chunk in r.iter_lines():
+                if chunk:
+                    yield chunk
 
     return "variabile d'ambiente non trovata"
 

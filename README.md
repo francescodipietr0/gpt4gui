@@ -6,6 +6,8 @@ interfaccia grafica per utilizzare le api messse a disposizione da openai e sfru
 
 per poter runnare l'applicazione, è necessario creare una variabile d'ambiente **openai_key** al cui interno inserire la key fornita da openai alla creazione del proprio account
 
+fatto ciò, avviare **core.py** presente sotto gpt4gui > gpt4be e, successivamente, l'applicazione angular
+
 ## problemi di lentezza
 
 sul branch **master** è possibile testare il funzionamento di quanto descritto in precedenza.

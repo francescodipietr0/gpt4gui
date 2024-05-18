@@ -61,6 +61,7 @@ def get_openai_response(prompt, history):
         with requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data, stream=True) as r:
             for chunk in r.iter_lines():
                 if chunk:
+                    print("il mio chunk: " + chunk.decode('utf-8') )
                     yield chunk
 
     return "variabile d'ambiente non trovata"

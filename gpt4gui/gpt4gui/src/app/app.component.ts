@@ -7,6 +7,7 @@ import { GptService } from './services/gpt.service';
     <div class="container-fluid">
       <div class="row full-height">
         <div class="col col-3">
+          <button (click)="gptService.getStreamData('ciao, come stai?', [])">CLICK ME</button>
         </div>
         <div class="col col-9 d-flex flex-column justify-content-between align-items-center pt-4 pb-3">
           <gpt-message-container></gpt-message-container>
@@ -37,6 +38,6 @@ export class AppComponent {
 
   title = 'gpt4gui';
 
-  constructor() {}
+  constructor(public gptService: GptService) {}
 
 }

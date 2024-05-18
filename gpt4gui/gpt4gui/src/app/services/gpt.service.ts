@@ -25,14 +25,27 @@ export class GptService {
       .set("prompt", prompt)
       .set("storedMessages", JSON.stringify(this.storedMessages));
     
-    this.http.get(url, {"params": params})
-      .pipe(
-        map(response => this.mapToGptResponseDTO(response))
-      )
-      .subscribe(response => {
-        this.handleResponse({question: prompt, answer: response});
+    // this.http.get(url, {params, responseType: 'text'})
+    //   // .pipe(
+    //   //   map(response => this.mapToGptResponseDTO(response))
+    //   // )
+    //   .subscribe(response => { 
+    //     console.log(response);
+    //     // this.handleResponse({question: prompt, answer: response});
+    //   }
+    // );
+
+
+    this.http.get(url, {params, responseType: 'text', observe: 'response'})
+      .subscribe(response => { 
+        console.log(response);
       }
     );
+  }
+
+  getStreamData(prompt: string, previousMessages: any[]): void {
+    const url = `http://localhost:8080/api/test?prompt=${prompt}&storedMessages=${JSON.stringify(previousMessages)}`;
+    this.http.get(url).subscribe(res => console.log(res));
   }
 
   mapToGptResponseDTO(data: any){
